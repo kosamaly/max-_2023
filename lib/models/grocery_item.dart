@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:max_section11/models/category.dart';
 
 class GroceryItem {
   GroceryItem({
