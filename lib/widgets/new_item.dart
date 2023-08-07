@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:max_section11/models/grocery_item.dart';
 import '../data/categories.dart';
 import '../models/category.dart';
 import 'package:http/http.dart' as http;
@@ -16,22 +17,36 @@ class _NewItemState extends State<NewItem> {
   // Variable to hold the selected category
   final _formKey = GlobalKey<FormState>();
   var _enteredName = '';
+  var isSending = false;
 
   var _enteredQuantity = 1;
   var selectedCategory = categories[Categories.vegetables]!;
-  void _SaveItem() {
+  void _SaveItem() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+      setState(() {
+        isSending = true;
+      });
       final Url = Uri.https('flutter-prep-9b1cf-default-rtdb.firebaseio.com',
           'shopping - list.json');
-      http.post(Url,
+      final response = await http.post(Url,
           headers: {'Content-Type': 'application/json'},
           body: json.encode({
             'name': _enteredName,
             'quantity': _enteredQuantity,
             'category': selectedCategory.title,
           }));
-      Navigator.of(context).pop();
+      print(response.body);
+      print(response.statusCode);
+      final Map<String, dynamic> resData = jsonDecode(response.body);
+      if (!context.mounted) {
+        return;
+      }
+      Navigator.of(context).pop(GroceryItem(
+          id: resData["name"],
+          name: _enteredName,
+          quantity: _enteredQuantity,
+          category: selectedCategory));
     }
   }
 
@@ -138,16 +153,25 @@ class _NewItemState extends State<NewItem> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                    onPressed: () {
-                      _formKey.currentState!.reset();
-                    },
+                    onPressed: isSending
+                        ? null
+                        : () {
+                            _formKey.currentState!.reset();
+                          },
                     child: Text('Reset'),
                   ),
                   ElevatedButton(
-                      onPressed: () {
-                        _SaveItem();
-                      },
-                      child: Text('Add'))
+                      onPressed: isSending
+                          ? null
+                          : () {
+                              _SaveItem();
+                            },
+                      child: isSending
+                          ? SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator())
+                          : Text('Add'))
                 ],
               ),
             ],
