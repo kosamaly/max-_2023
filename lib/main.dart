@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:max_section11/widgets/grocery_list.dart';
+import 'package:max_section11/screens/homescreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 50, 58, 60),
       ),
       // here i replaced the material App with home
-      home: CategoryList(),
+      home: HomeScreen(),
     );
   }
 }

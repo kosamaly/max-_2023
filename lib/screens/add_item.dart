@@ -60,7 +60,7 @@ class _NewItemState extends State<NewItem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Form'),
+        title: Text('Add Item'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -125,8 +125,8 @@ class _NewItemState extends State<NewItem> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: 16,
-                                  height: 16,
+                                  width: 1,
+                                  height: 1,
                                   color: category.value.color,
                                 ),
                                 const SizedBox(
@@ -158,7 +158,7 @@ class _NewItemState extends State<NewItem> {
                         : () {
                             _formKey.currentState!.reset();
                           },
-                    child: Text('Reset'),
+                    child: const Text('Reset'),
                   ),
                   ElevatedButton(
                       onPressed: isSending
@@ -167,11 +167,11 @@ class _NewItemState extends State<NewItem> {
                               _SaveItem();
                             },
                       child: isSending
-                          ? SizedBox(
+                          ? const SizedBox(
                               width: 16,
                               height: 16,
                               child: CircularProgressIndicator())
-                          : Text('Add'))
+                          : const Text('Add'))
                 ],
               ),
             ],
@@ -181,82 +181,3 @@ class _NewItemState extends State<NewItem> {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-//
-// import '../data/categories.dart';
-// import '../models/category.dart';
-//
-// class NewItem extends StatefulWidget {
-//   const NewItem({Key? key}) : super(key: key);
-//
-//   @override
-//   State<NewItem> createState() => _NewItemState();
-// }
-//
-// class _NewItemState extends State<NewItem> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Form')),
-//       body: Padding(
-//         padding: const EdgeInsets.all(8.0),
-//         child: Form(
-//           child: Column(children: [
-//             TextFormField(
-//                 maxLength: 50,
-//                 decoration: InputDecoration(labelText: 'Name'),
-//                 validator: (value) {
-//                   if (value == null ||
-//                       value.isEmpty ||
-//                       int.tryParse(value) == null ||
-//                       value.trim().length > 50) {
-//                     return 'Must be a valid, positive number.';
-//                   }
-//                   return "Demo";
-//                 }),
-//             Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-//               Expanded(
-//                 child: TextFormField(
-//                     decoration: const InputDecoration(labelText: 'Quantity'),
-//                     initialValue: "1",
-//                     validator: (value) {
-//                       if (value == null ||
-//                           value.isEmpty ||
-//                           value.trim().length == 1 ||
-//                           value.trim().length > 50) {
-//                         return 'Must be between 1 to 50 characters.';
-//                       }
-//                       return "Demo";
-//                     }),
-//               ),
-//               SizedBox(
-//                 width: 10,
-//               ),
-//               DropdownButton(
-//                 items: [
-//                   for (final category in categories.entries)
-//                     DropdownMenuItem(
-//                       value: category.value,
-//                       child: Row(children: [
-//                         Container(
-//                           width: 16,
-//                           height: 16,
-//                           color: category.value.color,
-//                         ),
-//                         SizedBox(
-//                           width: 6,
-//                         ),
-//                         Text(category.value.title),
-//                       ]),
-//                     )
-//                 ],
-//                 onChanged: (value) {},
-//               ),
-//             ])
-//           ]),
-//         ),
-//       ),
-//     );
-//   }
-// }
